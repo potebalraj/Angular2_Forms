@@ -1,0 +1,65 @@
+﻿
+<form (ngSubmit)="processForm()" [formGroup]="form">
+
+    <div class="form-group">       
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" name="firstName" required 
+               formControlName="firstName"/>   
+        <span class="help-block" *ngIf="formErrors.firstName">
+            {{formErrors.firstName}}
+        </span>          
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" name="lastName" required 
+               formControlName="lastName"/>    
+        <span class="help-block" *ngIf="formErrors.lastName">
+            {{formErrors.lastName}}
+        </span>     
+    </div>
+
+    <div class="form-group" formArrayName="addresses">
+        <div *ngFor="let address of form.controls.addresses.controls;let i=index;">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Address #{{i + 1}}
+
+                    <span class="remove" *ngIf="form.controls.addresses.controls.length > 1"   (click)="removeAddress(i)">
+                        Remove
+                    </span>
+                </div>
+                <div class="panel-body" [formGroupName] ="i">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" class="form-control" formControlName="city" required/>
+
+                        <span class="help-block"
+                              *ngIf="formErrors.addresses[i].city">
+                            {{formErrors.addresses[i].city}}
+                        </span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input type="text" class="form-control" formControlName="country" required />
+
+                        <span class="help-block"
+                              *ngIf="formErrors.addresses[i].country">
+                            {{formErrors.addresses[i].country}}
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-right">
+        <a (click)="addAddress()" class="btn btn-info">Add Address</a>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Save</button>
+    </div>
+
+</form>
